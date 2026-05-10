@@ -1,0 +1,32 @@
+{
+  "cols": [
+    {
+      "TABLE_NAME": "documents_type",
+      "COLUMN_NAME": "id_document_type",
+      "COLUMN_TYPE": "int",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "PRI",
+      "EXTRA": "auto_increment",
+      "ORDINAL_POSITION": 1
+    },
+    {
+      "TABLE_NAME": "documents_type",
+      "COLUMN_NAME": "document_name",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_KEY": "",
+      "EXTRA": "",
+      "ORDINAL_POSITION": 2
+    }
+  ],
+  "fksOut": [],
+  "fksIn": [
+    {
+      "TABLE_NAME": "lead_documents",
+      "COLUMN_NAME": "id_document_type",
+      "REFERENCED_TABLE_NAME": "documents_type",
+      "REFERENCED_COLUMN_NAME": "id_document_type",
+      "CONSTRAINT_NAME": "lead_documents_ibfk_2"
+    }
+  ]
+}

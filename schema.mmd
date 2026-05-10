@@ -1,0 +1,618 @@
+erDiagram
+  ACCOUNTING_CATEGORIES {
+    int_unsigned id_accounting_category PK
+    varchar_50 category_code
+    varchar_100 category_name
+    tinyint_unsigned id_transaction_type FK
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  ACCOUNTING_MONTHLY_CLOSE_STATUSES {
+    tinyint_unsigned id_monthly_close_status PK
+    varchar_40 status_code
+    varchar_80 status_name
+    tinyint_1 is_final
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  ACCOUNTING_MONTHLY_CLOSES {
+    bigint_unsigned id_monthly_close PK
+    char_7 month_key
+    tinyint_unsigned id_monthly_close_status FK
+    decimal_14_2 income_paid
+    decimal_14_2 expense_paid
+    decimal_14_2 net_result
+    decimal_14_2 pending_amount
+    varchar_500 notes
+    datetime closed_at
+    int id_closed_by FK
+    int id_created_by FK
+    datetime created_at
+    datetime updated_at
+  }
+
+  ACCOUNTING_PAYMENT_METHODS {
+    tinyint_unsigned id_payment_method PK
+    varchar_40 method_code
+    varchar_80 method_name
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  ACCOUNTING_RECEIVABLE_PAYMENTS {
+    bigint_unsigned id_receivable_payment PK
+    bigint_unsigned id_receivable FK
+    date payment_date
+    decimal_14_2 amount
+    tinyint_unsigned id_payment_method FK
+    varchar_120 reference_number
+    varchar_500 notes
+    bigint_unsigned id_transaction FK
+    int id_created_by FK
+    datetime created_at
+  }
+
+  ACCOUNTING_RECEIVABLE_STATUSES {
+    tinyint_unsigned id_receivable_status PK
+    varchar_40 status_code
+    varchar_80 status_name
+    tinyint_1 is_final
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  ACCOUNTING_RECEIVABLES {
+    bigint_unsigned id_receivable PK
+    varchar_50 invoice_number
+    int id_lead FK
+    varchar_120 client_name
+    date issue_date
+    date due_date
+    decimal_14_2 amount
+    decimal_14_2 balance
+    tinyint_unsigned id_receivable_status FK
+    char_3 currency_code
+    varchar_500 notes
+    int id_created_by FK
+    int id_updated_by FK
+    datetime created_at
+    datetime updated_at
+  }
+
+  ACCOUNTING_TRANSACTION_STATUSES {
+    tinyint_unsigned id_transaction_status PK
+    varchar_40 status_code
+    varchar_80 status_name
+    tinyint_1 is_final
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  ACCOUNTING_TRANSACTION_TYPES {
+    tinyint_unsigned id_transaction_type PK
+    varchar_40 type_code
+    varchar_80 type_name
+    smallint sign_multiplier
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  ACCOUNTING_TRANSACTIONS {
+    bigint_unsigned id_transaction PK
+    date transaction_date
+    tinyint_unsigned id_transaction_type FK
+    tinyint_unsigned id_transaction_status FK
+    int_unsigned id_accounting_category FK
+    varchar_255 concept
+    varchar_150 counterparty
+    decimal_14_2 amount
+    char_3 currency_code
+    int id_lead FK
+    varchar_120 external_reference
+    varchar_500 notes
+    int id_created_by FK
+    int id_updated_by FK
+    datetime created_at
+    datetime updated_at
+    datetime deleted_at
+  }
+
+  ATTENDANCE_EVENT_TYPES {
+    tinyint_unsigned id_attendance_event_type PK
+    varchar_40 event_code
+    varchar_80 event_name
+    tinyint_1 is_entry_event
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  BANKS {
+    int id_bank PK
+    varchar_100 bank_name
+    int bank_interest_rate
+  }
+
+  CITIES {
+    int id_city PK
+    varchar_75 city_name
+  }
+
+  CONSTRUCTION_STYLES {
+    int id_construction_style PK
+    varchar_50 construction_style_name
+  }
+
+  DOCUMENTS_TYPE {
+    int id_document_type PK
+    varchar_50 document_name
+  }
+
+  EMPLOYEES {
+    int id_employee PK
+    varchar_100 employee_name
+    int employee_age
+    varchar_100 employee_job
+    decimal_7_2 employee_salary
+    time employee_check_in
+    varchar_512 employee_photo
+    varchar_100 employee_user
+    varchar_255 employee_password
+    varchar_100 employee_email
+    tinyint_1 activo
+    int id_role FK
+  }
+
+  HOUSES {
+    int id_house PK
+    varchar_20 house_name
+    decimal_10_2 price
+    varchar_512 house_description
+    varchar_7 house_size
+    int house_floors
+    int house_bathrooms
+    int house_living_rooms
+    tinyint_1 house_rooftop
+    tinyint_1 house_basement
+    int house_bedrooms
+    int house_total_rooms
+    int house_playrooms
+    int house_kitchens
+    tinyint_1 house_furnished
+    tinyint_1 house_garage
+    int house_parking_slots
+    tinyint_1 house_frontyard
+    tinyint_1 house_backyard
+    varchar_512 house_photo_1
+    varchar_512 house_photo_2
+    varchar_512 house_photo_3
+    tinyint_1 house_status
+    int id_project FK
+  }
+
+  HR_CANDIDATE_STAGE_HISTORY {
+    bigint_unsigned id_candidate_stage_history PK
+    bigint_unsigned id_candidate FK
+    tinyint_unsigned id_from_recruitment_stage FK
+    tinyint_unsigned id_to_recruitment_stage FK
+    datetime changed_at
+    int id_changed_by FK
+    varchar_500 notes
+  }
+
+  HR_CANDIDATES {
+    bigint_unsigned id_candidate PK
+    varchar_150 candidate_full_name
+    varchar_120 candidate_email
+    varchar_30 candidate_phone
+    int_unsigned id_hr_position FK
+    tinyint_unsigned id_recruitment_stage FK
+    tinyint_unsigned id_recruitment_source FK
+    decimal_5_2 score
+    varchar_512 resume_url
+    varchar_255 linkedin_url
+    text notes
+    int id_owner_employee FK
+    datetime created_at
+    datetime updated_at
+  }
+
+  HR_INTERVIEW_RESULTS {
+    tinyint_unsigned id_interview_result PK
+    varchar_40 result_code
+    varchar_80 result_name
+    tinyint_1 is_final
+    tinyint_1 is_positive
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_INTERVIEW_TYPES {
+    tinyint_unsigned id_interview_type PK
+    varchar_40 type_code
+    varchar_80 type_name
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_INTERVIEWS {
+    bigint_unsigned id_interview PK
+    bigint_unsigned id_candidate FK
+    tinyint_unsigned id_recruitment_stage FK
+    tinyint_unsigned id_interview_type FK
+    tinyint_unsigned id_interview_result FK
+    datetime scheduled_at
+    datetime started_at
+    datetime ended_at
+    int id_interviewer FK
+    decimal_5_2 score
+    text feedback
+    datetime created_at
+    datetime updated_at
+  }
+
+  HR_LEAVE_REQUEST_STATUSES {
+    tinyint_unsigned id_leave_request_status PK
+    varchar_40 status_code
+    varchar_80 status_name
+    tinyint_1 is_final
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_LEAVE_REQUESTS {
+    bigint_unsigned id_leave_request PK
+    int id_employee FK
+    tinyint_unsigned id_leave_request_status FK
+    date start_date
+    date end_date
+    decimal_5_2 days_requested
+    varchar_500 reason
+    int id_reviewed_by FK
+    datetime reviewed_at
+    varchar_500 review_notes
+    datetime created_at
+    datetime updated_at
+  }
+
+  HR_PAYROLL_CONCEPT_TYPES {
+    tinyint_unsigned id_payroll_concept_type PK
+    varchar_40 type_code
+    varchar_80 type_name
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_PAYROLL_CONCEPTS {
+    int_unsigned id_payroll_concept PK
+    varchar_50 concept_code
+    varchar_120 concept_name
+    tinyint_unsigned id_payroll_concept_type FK
+    tinyint_1 is_taxable
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_PAYROLL_ITEM_LINES {
+    bigint_unsigned id_payroll_item_line PK
+    bigint_unsigned id_payroll_item FK
+    int_unsigned id_payroll_concept FK
+    decimal_10_2 quantity
+    decimal_14_2 unit_value
+    decimal_14_2 amount
+    datetime created_at
+  }
+
+  HR_PAYROLL_ITEMS {
+    bigint_unsigned id_payroll_item PK
+    bigint_unsigned id_payroll_run FK
+    int id_employee FK
+    decimal_14_2 base_salary
+    decimal_14_2 total_earnings
+    decimal_14_2 total_deductions
+    decimal_14_2 total_taxes
+    decimal_14_2 net_amount
+    varchar_500 notes
+    datetime created_at
+    datetime updated_at
+  }
+
+  HR_PAYROLL_RUN_STATUSES {
+    tinyint_unsigned id_payroll_run_status PK
+    varchar_40 status_code
+    varchar_80 status_name
+    tinyint_1 is_final
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_PAYROLL_RUNS {
+    bigint_unsigned id_payroll_run PK
+    char_7 month_key
+    tinyint_unsigned id_payroll_run_status FK
+    date scheduled_payment_date
+    decimal_14_2 total_base
+    decimal_14_2 total_earnings
+    decimal_14_2 total_deductions
+    decimal_14_2 total_taxes
+    decimal_14_2 total_net
+    varchar_500 notes
+    int id_created_by FK
+    int id_approved_by FK
+    datetime approved_at
+    datetime created_at
+    datetime updated_at
+  }
+
+  HR_POSITION_STATUSES {
+    tinyint_unsigned id_position_status PK
+    varchar_40 status_code
+    varchar_80 status_name
+    tinyint_1 is_final
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_POSITIONS {
+    int_unsigned id_hr_position PK
+    varchar_50 position_code
+    varchar_120 position_name
+    varchar_100 department_name
+    tinyint_unsigned id_position_status FK
+    int id_created_by FK
+    datetime created_at
+    datetime updated_at
+  }
+
+  HR_RECRUITMENT_SOURCES {
+    tinyint_unsigned id_recruitment_source PK
+    varchar_50 source_code
+    varchar_100 source_name
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  HR_RECRUITMENT_STAGES {
+    tinyint_unsigned id_recruitment_stage PK
+    varchar_50 stage_code
+    varchar_100 stage_name
+    smallint_unsigned stage_order
+    tinyint_1 is_terminal
+    tinyint_1 is_hiring_stage
+    tinyint_1 is_rejection_stage
+    tinyint_1 is_active
+    datetime created_at
+  }
+
+  LEAD_DOCUMENTATION_MESSAGES {
+    int id_lead_documentation_messages PK
+    varchar_512 lead_message
+    int id_lead FK
+  }
+
+  LEAD_DOCUMENTS {
+    int id_lead_document PK
+    varchar_512 document_photo
+    varchar_255 document_original_name
+    varchar_100 document_mime_type
+    bigint_unsigned document_size_bytes
+    varchar_255 cloud_public_id
+    int id_lead FK
+    int id_document_type FK
+    tinyint_1 verified
+    int id_verified_by FK
+    datetime verified_at
+    datetime created_at
+    datetime updated_at
+  }
+
+  LEAD_NOTES {
+    int id_note PK
+    varchar_512 note_text
+    int id_lead FK
+    int id_employee FK
+    datetime created_at
+    datetime updated_at
+  }
+
+  LEAD_PHASE_HISTORY {
+    int id_lead_phase_history PK
+    int id_lead FK
+    int id_lead_phase FK
+    datetime lead_phase_entry_date
+    datetime lead_phase_exit_date
+  }
+
+  LEAD_PHASES {
+    int id_lead_phase PK
+    varchar_50 lead_phase_name
+  }
+
+  LEADS {
+    int id_lead PK
+    varchar_100 lead_client_name
+    varchar_14 lead_client_phone
+    varchar_50 lead_client_email
+    decimal_10_2 total_amount
+    int number_of_payments
+    int id_lead_phase FK
+    int id_manager FK
+    int id_supervisor FK
+    int id_sales_person FK
+    int id_contact_center FK
+    int id_project FK
+    int id_house FK
+    int id_bank FK
+  }
+
+  MARCAJES {
+    int id_marcaje PK
+    timestamp fecha_hora
+    varchar_7 descripción
+    varchar_256 motivo
+    int id_employee FK
+    tinyint_unsigned id_attendance_event_type FK
+  }
+
+  MUNICIPALITIES {
+    int id_municipality PK
+    varchar_75 municipality_name
+    int id_city FK
+  }
+
+  PROJECTS {
+    int id_project PK
+    varchar_100 project_name
+    decimal_10_8 project_latitude
+    decimal_11_8 project_longitude
+    int project_city_location FK
+    int project_municipality_location FK
+    varchar_256 project_location_extra_description
+    int project_construction_style FK
+    varchar_512 project_description
+    tinyint_1 project_status
+    int project_parks
+    int project_pools
+    int project_night_clubs
+    int project_discos
+    int project_multi_use_scenarios
+    int project_recreational_centers
+    varchar_512 project_logo
+    varchar_512 project_photo_1
+    varchar_512 project_photo_2
+    varchar_512 project_photo_3
+  }
+
+  REJECTION_REASONS {
+    int id_rejection_reason PK
+    varchar_50 rejection_reason_name
+  }
+
+  REJECTION_REASONS_HISTORY {
+    int id_rejection_history PK
+    int id_rejection_reason FK
+    int id_lead FK
+  }
+
+  ROLES {
+    int id_role PK
+    varchar_40 role_name
+  }
+
+  ROLES_VIEWS {
+    int id_role_views PK
+    int id_role_reference FK
+    varchar_50 name_view
+    tinyint_1 enabled
+    tinyint edit
+  }
+
+  TEAM_MEMBERS {
+    int id_team_member PK
+    int id_team FK
+    int id_employee FK
+    date fecha_asignacion
+  }
+
+  TEAM_PROJECTS {
+    int id_team_project PK
+    int id_team FK
+    int id_project FK
+    date fecha_asignacion
+  }
+
+  TEAMS {
+    int id_team PK
+    varchar_100 team_name
+    tinyint_1 status
+    date fecha_creacion
+    varchar_512 team_photo
+  }
+
+  VIEWINGS {
+    int id_viewing PK
+    datetime viewing_date
+    tinyint_1 viewing_status
+    int id_lead FK
+  }
+
+  ACCOUNTING_TRANSACTION_TYPES ||--o{ ACCOUNTING_CATEGORIES : id_transaction_type
+  EMPLOYEES ||--o{ ACCOUNTING_MONTHLY_CLOSES : id_closed_by
+  EMPLOYEES ||--o{ ACCOUNTING_MONTHLY_CLOSES : id_created_by
+  ACCOUNTING_MONTHLY_CLOSE_STATUSES ||--o{ ACCOUNTING_MONTHLY_CLOSES : id_monthly_close_status
+  EMPLOYEES ||--o{ ACCOUNTING_RECEIVABLE_PAYMENTS : id_created_by
+  ACCOUNTING_PAYMENT_METHODS ||--o{ ACCOUNTING_RECEIVABLE_PAYMENTS : id_payment_method
+  ACCOUNTING_RECEIVABLES ||--o{ ACCOUNTING_RECEIVABLE_PAYMENTS : id_receivable
+  ACCOUNTING_TRANSACTIONS ||--o{ ACCOUNTING_RECEIVABLE_PAYMENTS : id_transaction
+  EMPLOYEES ||--o{ ACCOUNTING_RECEIVABLES : id_created_by
+  LEADS ||--o{ ACCOUNTING_RECEIVABLES : id_lead
+  ACCOUNTING_RECEIVABLE_STATUSES ||--o{ ACCOUNTING_RECEIVABLES : id_receivable_status
+  EMPLOYEES ||--o{ ACCOUNTING_RECEIVABLES : id_updated_by
+  ACCOUNTING_CATEGORIES ||--o{ ACCOUNTING_TRANSACTIONS : id_accounting_category
+  EMPLOYEES ||--o{ ACCOUNTING_TRANSACTIONS : id_created_by
+  LEADS ||--o{ ACCOUNTING_TRANSACTIONS : id_lead
+  ACCOUNTING_TRANSACTION_STATUSES ||--o{ ACCOUNTING_TRANSACTIONS : id_transaction_status
+  ACCOUNTING_TRANSACTION_TYPES ||--o{ ACCOUNTING_TRANSACTIONS : id_transaction_type
+  EMPLOYEES ||--o{ ACCOUNTING_TRANSACTIONS : id_updated_by
+  ROLES ||--o{ EMPLOYEES : id_role
+  PROJECTS ||--o{ HOUSES : id_project
+  HR_CANDIDATES ||--o{ HR_CANDIDATE_STAGE_HISTORY : id_candidate
+  EMPLOYEES ||--o{ HR_CANDIDATE_STAGE_HISTORY : id_changed_by
+  HR_RECRUITMENT_STAGES ||--o{ HR_CANDIDATE_STAGE_HISTORY : id_from_recruitment_stage
+  HR_RECRUITMENT_STAGES ||--o{ HR_CANDIDATE_STAGE_HISTORY : id_to_recruitment_stage
+  HR_POSITIONS ||--o{ HR_CANDIDATES : id_hr_position
+  EMPLOYEES ||--o{ HR_CANDIDATES : id_owner_employee
+  HR_RECRUITMENT_SOURCES ||--o{ HR_CANDIDATES : id_recruitment_source
+  HR_RECRUITMENT_STAGES ||--o{ HR_CANDIDATES : id_recruitment_stage
+  HR_CANDIDATES ||--o{ HR_INTERVIEWS : id_candidate
+  HR_INTERVIEW_RESULTS ||--o{ HR_INTERVIEWS : id_interview_result
+  HR_INTERVIEW_TYPES ||--o{ HR_INTERVIEWS : id_interview_type
+  EMPLOYEES ||--o{ HR_INTERVIEWS : id_interviewer
+  HR_RECRUITMENT_STAGES ||--o{ HR_INTERVIEWS : id_recruitment_stage
+  EMPLOYEES ||--o{ HR_LEAVE_REQUESTS : id_employee
+  HR_LEAVE_REQUEST_STATUSES ||--o{ HR_LEAVE_REQUESTS : id_leave_request_status
+  EMPLOYEES ||--o{ HR_LEAVE_REQUESTS : id_reviewed_by
+  HR_PAYROLL_CONCEPT_TYPES ||--o{ HR_PAYROLL_CONCEPTS : id_payroll_concept_type
+  HR_PAYROLL_CONCEPTS ||--o{ HR_PAYROLL_ITEM_LINES : id_payroll_concept
+  HR_PAYROLL_ITEMS ||--o{ HR_PAYROLL_ITEM_LINES : id_payroll_item
+  EMPLOYEES ||--o{ HR_PAYROLL_ITEMS : id_employee
+  HR_PAYROLL_RUNS ||--o{ HR_PAYROLL_ITEMS : id_payroll_run
+  EMPLOYEES ||--o{ HR_PAYROLL_RUNS : id_approved_by
+  EMPLOYEES ||--o{ HR_PAYROLL_RUNS : id_created_by
+  HR_PAYROLL_RUN_STATUSES ||--o{ HR_PAYROLL_RUNS : id_payroll_run_status
+  EMPLOYEES ||--o{ HR_POSITIONS : id_created_by
+  HR_POSITION_STATUSES ||--o{ HR_POSITIONS : id_position_status
+  LEADS ||--o{ LEAD_DOCUMENTATION_MESSAGES : id_lead
+  DOCUMENTS_TYPE ||--o{ LEAD_DOCUMENTS : id_document_type
+  LEADS ||--o{ LEAD_DOCUMENTS : id_lead
+  EMPLOYEES ||--o{ LEAD_DOCUMENTS : id_verified_by
+  EMPLOYEES ||--o{ LEAD_NOTES : id_employee
+  LEADS ||--o{ LEAD_NOTES : id_lead
+  LEADS ||--o{ LEAD_PHASE_HISTORY : id_lead
+  LEAD_PHASES ||--o{ LEAD_PHASE_HISTORY : id_lead_phase
+  BANKS ||--o{ LEADS : id_bank
+  EMPLOYEES ||--o{ LEADS : id_contact_center
+  HOUSES ||--o{ LEADS : id_house
+  LEAD_PHASES ||--o{ LEADS : id_lead_phase
+  EMPLOYEES ||--o{ LEADS : id_manager
+  EMPLOYEES ||--o{ LEADS : id_manager
+  PROJECTS ||--o{ LEADS : id_project
+  EMPLOYEES ||--o{ LEADS : id_sales_person
+  EMPLOYEES ||--o{ LEADS : id_sales_person
+  EMPLOYEES ||--o{ LEADS : id_supervisor
+  EMPLOYEES ||--o{ LEADS : id_supervisor
+  ATTENDANCE_EVENT_TYPES ||--o{ MARCAJES : id_attendance_event_type
+  EMPLOYEES ||--o{ MARCAJES : id_employee
+  CITIES ||--o{ MUNICIPALITIES : id_city
+  CITIES ||--o{ PROJECTS : project_city_location
+  CONSTRUCTION_STYLES ||--o{ PROJECTS : project_construction_style
+  MUNICIPALITIES ||--o{ PROJECTS : project_municipality_location
+  LEADS ||--o{ REJECTION_REASONS_HISTORY : id_lead
+  REJECTION_REASONS ||--o{ REJECTION_REASONS_HISTORY : id_rejection_reason
+  ROLES ||--o{ ROLES_VIEWS : id_role_reference
+  EMPLOYEES ||--o{ TEAM_MEMBERS : id_employee
+  TEAMS ||--o{ TEAM_MEMBERS : id_team
+  PROJECTS ||--o{ TEAM_PROJECTS : id_project
+  TEAMS ||--o{ TEAM_PROJECTS : id_team
+  LEADS ||--o{ VIEWINGS : id_lead

@@ -1,0 +1,617 @@
+Table accounting_categories {
+  id_accounting_category int unsigned [pk, increment, not null]
+  category_code varchar(50) [not null]
+  category_name varchar(100) [not null]
+  id_transaction_type tinyint unsigned
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_monthly_close_statuses {
+  id_monthly_close_status tinyint unsigned [pk, increment, not null]
+  status_code varchar(40) [not null]
+  status_name varchar(80) [not null]
+  is_final tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_monthly_closes {
+  id_monthly_close bigint unsigned [pk, increment, not null]
+  month_key char(7) [not null]
+  id_monthly_close_status tinyint unsigned [not null]
+  income_paid decimal(14,2) [not null, default: "0.00"]
+  expense_paid decimal(14,2) [not null, default: "0.00"]
+  net_result decimal(14,2) [not null, default: "0.00"]
+  pending_amount decimal(14,2) [not null, default: "0.00"]
+  notes varchar(500)
+  closed_at datetime
+  id_closed_by int
+  id_created_by int [not null]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_payment_methods {
+  id_payment_method tinyint unsigned [pk, increment, not null]
+  method_code varchar(40) [not null]
+  method_name varchar(80) [not null]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_receivable_payments {
+  id_receivable_payment bigint unsigned [pk, increment, not null]
+  id_receivable bigint unsigned [not null]
+  payment_date date [not null]
+  amount decimal(14,2) [not null]
+  id_payment_method tinyint unsigned [not null]
+  reference_number varchar(120)
+  notes varchar(500)
+  id_transaction bigint unsigned
+  id_created_by int [not null]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_receivable_statuses {
+  id_receivable_status tinyint unsigned [pk, increment, not null]
+  status_code varchar(40) [not null]
+  status_name varchar(80) [not null]
+  is_final tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_receivables {
+  id_receivable bigint unsigned [pk, increment, not null]
+  invoice_number varchar(50) [not null]
+  id_lead int
+  client_name varchar(120) [not null]
+  issue_date date [not null]
+  due_date date [not null]
+  amount decimal(14,2) [not null]
+  balance decimal(14,2) [not null]
+  id_receivable_status tinyint unsigned [not null]
+  currency_code char(3) [not null, default: "GTQ"]
+  notes varchar(500)
+  id_created_by int [not null]
+  id_updated_by int
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_transaction_statuses {
+  id_transaction_status tinyint unsigned [pk, increment, not null]
+  status_code varchar(40) [not null]
+  status_name varchar(80) [not null]
+  is_final tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_transaction_types {
+  id_transaction_type tinyint unsigned [pk, increment, not null]
+  type_code varchar(40) [not null]
+  type_name varchar(80) [not null]
+  sign_multiplier smallint [not null, default: "1"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table accounting_transactions {
+  id_transaction bigint unsigned [pk, increment, not null]
+  transaction_date date [not null]
+  id_transaction_type tinyint unsigned [not null]
+  id_transaction_status tinyint unsigned [not null]
+  id_accounting_category int unsigned
+  concept varchar(255) [not null]
+  counterparty varchar(150)
+  amount decimal(14,2) [not null]
+  currency_code char(3) [not null, default: "GTQ"]
+  id_lead int
+  external_reference varchar(120)
+  notes varchar(500)
+  id_created_by int [not null]
+  id_updated_by int
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  deleted_at datetime
+}
+
+Table attendance_event_types {
+  id_attendance_event_type tinyint unsigned [pk, increment, not null]
+  event_code varchar(40) [not null]
+  event_name varchar(80) [not null]
+  is_entry_event tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table banks {
+  id_bank int [pk, increment, not null]
+  bank_name varchar(100)
+  bank_interest_rate int
+}
+
+Table cities {
+  id_city int [pk, increment, not null]
+  city_name varchar(75)
+}
+
+Table construction_styles {
+  id_construction_style int [pk, increment, not null]
+  construction_style_name varchar(50)
+}
+
+Table documents_type {
+  id_document_type int [pk, increment, not null]
+  document_name varchar(50)
+}
+
+Table employees {
+  id_employee int [pk, increment, not null]
+  employee_name varchar(100)
+  employee_age int
+  employee_job varchar(100)
+  employee_salary decimal(7,2)
+  employee_check_in time
+  employee_photo varchar(512)
+  employee_user varchar(100)
+  employee_password varchar(255)
+  employee_email varchar(100)
+  activo tinyint(1) [default: "1"]
+  id_role int
+}
+
+Table houses {
+  id_house int [pk, increment, not null]
+  house_name varchar(20)
+  price decimal(10,2)
+  house_description varchar(512)
+  house_size varchar(7)
+  house_floors int
+  house_bathrooms int
+  house_living_rooms int
+  house_rooftop tinyint(1)
+  house_basement tinyint(1)
+  house_bedrooms int
+  house_total_rooms int
+  house_playrooms int
+  house_kitchens int
+  house_furnished tinyint(1)
+  house_garage tinyint(1)
+  house_parking_slots int
+  house_frontyard tinyint(1)
+  house_backyard tinyint(1)
+  house_photo_1 varchar(512)
+  house_photo_2 varchar(512)
+  house_photo_3 varchar(512)
+  house_status tinyint(1) [default: "1"]
+  id_project int
+}
+
+Table hr_candidate_stage_history {
+  id_candidate_stage_history bigint unsigned [pk, increment, not null]
+  id_candidate bigint unsigned [not null]
+  id_from_recruitment_stage tinyint unsigned
+  id_to_recruitment_stage tinyint unsigned [not null]
+  changed_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  id_changed_by int
+  notes varchar(500)
+}
+
+Table hr_candidates {
+  id_candidate bigint unsigned [pk, increment, not null]
+  candidate_full_name varchar(150) [not null]
+  candidate_email varchar(120)
+  candidate_phone varchar(30)
+  id_hr_position int unsigned
+  id_recruitment_stage tinyint unsigned [not null]
+  id_recruitment_source tinyint unsigned
+  score decimal(5,2) [not null, default: "0.00"]
+  resume_url varchar(512)
+  linkedin_url varchar(255)
+  notes text
+  id_owner_employee int
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_interview_results {
+  id_interview_result tinyint unsigned [pk, increment, not null]
+  result_code varchar(40) [not null]
+  result_name varchar(80) [not null]
+  is_final tinyint(1) [not null, default: "0"]
+  is_positive tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_interview_types {
+  id_interview_type tinyint unsigned [pk, increment, not null]
+  type_code varchar(40) [not null]
+  type_name varchar(80) [not null]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_interviews {
+  id_interview bigint unsigned [pk, increment, not null]
+  id_candidate bigint unsigned [not null]
+  id_recruitment_stage tinyint unsigned [not null]
+  id_interview_type tinyint unsigned [not null]
+  id_interview_result tinyint unsigned [not null]
+  scheduled_at datetime [not null]
+  started_at datetime
+  ended_at datetime
+  id_interviewer int
+  score decimal(5,2)
+  feedback text
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_leave_request_statuses {
+  id_leave_request_status tinyint unsigned [pk, increment, not null]
+  status_code varchar(40) [not null]
+  status_name varchar(80) [not null]
+  is_final tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_leave_requests {
+  id_leave_request bigint unsigned [pk, increment, not null]
+  id_employee int [not null]
+  id_leave_request_status tinyint unsigned [not null]
+  start_date date [not null]
+  end_date date [not null]
+  days_requested decimal(5,2)
+  reason varchar(500) [not null]
+  id_reviewed_by int
+  reviewed_at datetime
+  review_notes varchar(500)
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_payroll_concept_types {
+  id_payroll_concept_type tinyint unsigned [pk, increment, not null]
+  type_code varchar(40) [not null]
+  type_name varchar(80) [not null]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_payroll_concepts {
+  id_payroll_concept int unsigned [pk, increment, not null]
+  concept_code varchar(50) [not null]
+  concept_name varchar(120) [not null]
+  id_payroll_concept_type tinyint unsigned [not null]
+  is_taxable tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_payroll_item_lines {
+  id_payroll_item_line bigint unsigned [pk, increment, not null]
+  id_payroll_item bigint unsigned [not null]
+  id_payroll_concept int unsigned [not null]
+  quantity decimal(10,2) [not null, default: "1.00"]
+  unit_value decimal(14,2) [not null, default: "0.00"]
+  amount decimal(14,2) [not null, default: "0.00"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_payroll_items {
+  id_payroll_item bigint unsigned [pk, increment, not null]
+  id_payroll_run bigint unsigned [not null]
+  id_employee int [not null]
+  base_salary decimal(14,2) [not null, default: "0.00"]
+  total_earnings decimal(14,2) [not null, default: "0.00"]
+  total_deductions decimal(14,2) [not null, default: "0.00"]
+  total_taxes decimal(14,2) [not null, default: "0.00"]
+  net_amount decimal(14,2) [not null, default: "0.00"]
+  notes varchar(500)
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_payroll_run_statuses {
+  id_payroll_run_status tinyint unsigned [pk, increment, not null]
+  status_code varchar(40) [not null]
+  status_name varchar(80) [not null]
+  is_final tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_payroll_runs {
+  id_payroll_run bigint unsigned [pk, increment, not null]
+  month_key char(7) [not null]
+  id_payroll_run_status tinyint unsigned [not null]
+  scheduled_payment_date date
+  total_base decimal(14,2) [not null, default: "0.00"]
+  total_earnings decimal(14,2) [not null, default: "0.00"]
+  total_deductions decimal(14,2) [not null, default: "0.00"]
+  total_taxes decimal(14,2) [not null, default: "0.00"]
+  total_net decimal(14,2) [not null, default: "0.00"]
+  notes varchar(500)
+  id_created_by int [not null]
+  id_approved_by int
+  approved_at datetime
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_position_statuses {
+  id_position_status tinyint unsigned [pk, increment, not null]
+  status_code varchar(40) [not null]
+  status_name varchar(80) [not null]
+  is_final tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_positions {
+  id_hr_position int unsigned [pk, increment, not null]
+  position_code varchar(50) [not null]
+  position_name varchar(120) [not null]
+  department_name varchar(100)
+  id_position_status tinyint unsigned [not null]
+  id_created_by int
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_recruitment_sources {
+  id_recruitment_source tinyint unsigned [pk, increment, not null]
+  source_code varchar(50) [not null]
+  source_name varchar(100) [not null]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table hr_recruitment_stages {
+  id_recruitment_stage tinyint unsigned [pk, increment, not null]
+  stage_code varchar(50) [not null]
+  stage_name varchar(100) [not null]
+  stage_order smallint unsigned [not null]
+  is_terminal tinyint(1) [not null, default: "0"]
+  is_hiring_stage tinyint(1) [not null, default: "0"]
+  is_rejection_stage tinyint(1) [not null, default: "0"]
+  is_active tinyint(1) [not null, default: "1"]
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table lead_documentation_messages {
+  id_lead_documentation_messages int [pk, increment, not null]
+  lead_message varchar(512)
+  id_lead int
+}
+
+Table lead_documents {
+  id_lead_document int [pk, increment, not null]
+  document_photo varchar(512)
+  document_original_name varchar(255)
+  document_mime_type varchar(100)
+  document_size_bytes bigint unsigned
+  cloud_public_id varchar(255)
+  id_lead int
+  id_document_type int
+  verified tinyint(1) [default: "0"]
+  id_verified_by int
+  verified_at datetime
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table lead_notes {
+  id_note int [pk, increment, not null]
+  note_text varchar(512)
+  id_lead int
+  id_employee int
+  created_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+  updated_at datetime [not null, default: "CURRENT_TIMESTAMP"]
+}
+
+Table lead_phase_history {
+  id_lead_phase_history int [pk, increment, not null]
+  id_lead int
+  id_lead_phase int
+  lead_phase_entry_date datetime
+  lead_phase_exit_date datetime
+}
+
+Table lead_phases {
+  id_lead_phase int [pk, increment, not null]
+  lead_phase_name varchar(50)
+}
+
+Table leads {
+  id_lead int [pk, increment, not null]
+  lead_client_name varchar(100)
+  lead_client_phone varchar(14)
+  lead_client_email varchar(50)
+  total_amount decimal(10,2)
+  number_of_payments int
+  id_lead_phase int
+  id_manager int
+  id_supervisor int
+  id_sales_person int
+  id_contact_center int
+  id_project int
+  id_house int
+  id_bank int
+}
+
+Table marcajes {
+  id_marcaje int [pk, increment, not null]
+  fecha_hora timestamp [not null]
+  descripción varchar(7)
+  motivo varchar(256)
+  id_employee int
+  id_attendance_event_type tinyint unsigned
+}
+
+Table municipalities {
+  id_municipality int [pk, increment, not null]
+  municipality_name varchar(75)
+  id_city int
+}
+
+Table projects {
+  id_project int [pk, increment, not null]
+  project_name varchar(100)
+  project_latitude decimal(10,8)
+  project_longitude decimal(11,8)
+  project_city_location int
+  project_municipality_location int
+  project_location_extra_description varchar(256)
+  project_construction_style int
+  project_description varchar(512)
+  project_status tinyint(1)
+  project_parks int
+  project_pools int
+  project_night_clubs int
+  project_discos int
+  project_multi_use_scenarios int
+  project_recreational_centers int
+  project_logo varchar(512)
+  project_photo_1 varchar(512)
+  project_photo_2 varchar(512)
+  project_photo_3 varchar(512)
+}
+
+Table rejection_reasons {
+  id_rejection_reason int [pk, increment, not null]
+  rejection_reason_name varchar(50)
+}
+
+Table rejection_reasons_history {
+  id_rejection_history int [pk, increment, not null]
+  id_rejection_reason int
+  id_lead int
+}
+
+Table roles {
+  id_role int [pk, increment, not null]
+  role_name varchar(40)
+}
+
+Table roles_views {
+  id_role_views int [pk, increment, not null]
+  id_role_reference int [not null]
+  name_view varchar(50) [not null]
+  enabled tinyint(1) [default: "1"]
+  edit tinyint
+}
+
+Table team_members {
+  id_team_member int [pk, increment, not null]
+  id_team int [not null]
+  id_employee int [not null]
+  fecha_asignacion date
+}
+
+Table team_projects {
+  id_team_project int [pk, increment, not null]
+  id_team int [not null]
+  id_project int [not null]
+  fecha_asignacion date
+}
+
+Table teams {
+  id_team int [pk, increment, not null]
+  team_name varchar(100)
+  status tinyint(1) [default: "1"]
+  fecha_creacion date
+  team_photo varchar(512)
+}
+
+Table viewings {
+  id_viewing int [pk, increment, not null]
+  viewing_date datetime
+  viewing_status tinyint(1) [default: "0"]
+  id_lead int
+}
+
+Ref: accounting_categories.id_transaction_type > accounting_transaction_types.id_transaction_type
+Ref: accounting_monthly_closes.id_closed_by > employees.id_employee
+Ref: accounting_monthly_closes.id_created_by > employees.id_employee
+Ref: accounting_monthly_closes.id_monthly_close_status > accounting_monthly_close_statuses.id_monthly_close_status
+Ref: accounting_receivable_payments.id_created_by > employees.id_employee
+Ref: accounting_receivable_payments.id_payment_method > accounting_payment_methods.id_payment_method
+Ref: accounting_receivable_payments.id_receivable > accounting_receivables.id_receivable
+Ref: accounting_receivable_payments.id_transaction > accounting_transactions.id_transaction
+Ref: accounting_receivables.id_created_by > employees.id_employee
+Ref: accounting_receivables.id_lead > leads.id_lead
+Ref: accounting_receivables.id_receivable_status > accounting_receivable_statuses.id_receivable_status
+Ref: accounting_receivables.id_updated_by > employees.id_employee
+Ref: accounting_transactions.id_accounting_category > accounting_categories.id_accounting_category
+Ref: accounting_transactions.id_created_by > employees.id_employee
+Ref: accounting_transactions.id_lead > leads.id_lead
+Ref: accounting_transactions.id_transaction_status > accounting_transaction_statuses.id_transaction_status
+Ref: accounting_transactions.id_transaction_type > accounting_transaction_types.id_transaction_type
+Ref: accounting_transactions.id_updated_by > employees.id_employee
+Ref: employees.id_role > roles.id_role
+Ref: houses.id_project > projects.id_project
+Ref: hr_candidate_stage_history.id_candidate > hr_candidates.id_candidate
+Ref: hr_candidate_stage_history.id_changed_by > employees.id_employee
+Ref: hr_candidate_stage_history.id_from_recruitment_stage > hr_recruitment_stages.id_recruitment_stage
+Ref: hr_candidate_stage_history.id_to_recruitment_stage > hr_recruitment_stages.id_recruitment_stage
+Ref: hr_candidates.id_hr_position > hr_positions.id_hr_position
+Ref: hr_candidates.id_owner_employee > employees.id_employee
+Ref: hr_candidates.id_recruitment_source > hr_recruitment_sources.id_recruitment_source
+Ref: hr_candidates.id_recruitment_stage > hr_recruitment_stages.id_recruitment_stage
+Ref: hr_interviews.id_candidate > hr_candidates.id_candidate
+Ref: hr_interviews.id_interview_result > hr_interview_results.id_interview_result
+Ref: hr_interviews.id_interview_type > hr_interview_types.id_interview_type
+Ref: hr_interviews.id_interviewer > employees.id_employee
+Ref: hr_interviews.id_recruitment_stage > hr_recruitment_stages.id_recruitment_stage
+Ref: hr_leave_requests.id_employee > employees.id_employee
+Ref: hr_leave_requests.id_leave_request_status > hr_leave_request_statuses.id_leave_request_status
+Ref: hr_leave_requests.id_reviewed_by > employees.id_employee
+Ref: hr_payroll_concepts.id_payroll_concept_type > hr_payroll_concept_types.id_payroll_concept_type
+Ref: hr_payroll_item_lines.id_payroll_concept > hr_payroll_concepts.id_payroll_concept
+Ref: hr_payroll_item_lines.id_payroll_item > hr_payroll_items.id_payroll_item
+Ref: hr_payroll_items.id_employee > employees.id_employee
+Ref: hr_payroll_items.id_payroll_run > hr_payroll_runs.id_payroll_run
+Ref: hr_payroll_runs.id_approved_by > employees.id_employee
+Ref: hr_payroll_runs.id_created_by > employees.id_employee
+Ref: hr_payroll_runs.id_payroll_run_status > hr_payroll_run_statuses.id_payroll_run_status
+Ref: hr_positions.id_created_by > employees.id_employee
+Ref: hr_positions.id_position_status > hr_position_statuses.id_position_status
+Ref: lead_documentation_messages.id_lead > leads.id_lead
+Ref: lead_documents.id_document_type > documents_type.id_document_type
+Ref: lead_documents.id_lead > leads.id_lead
+Ref: lead_documents.id_verified_by > employees.id_employee
+Ref: lead_notes.id_employee > employees.id_employee
+Ref: lead_notes.id_lead > leads.id_lead
+Ref: lead_phase_history.id_lead > leads.id_lead
+Ref: lead_phase_history.id_lead_phase > lead_phases.id_lead_phase
+Ref: leads.id_bank > banks.id_bank
+Ref: leads.id_contact_center > employees.id_employee
+Ref: leads.id_house > houses.id_house
+Ref: leads.id_lead_phase > lead_phases.id_lead_phase
+Ref: leads.id_manager > employees.id_employee
+Ref: leads.id_manager > employees.id_employee
+Ref: leads.id_project > projects.id_project
+Ref: leads.id_sales_person > employees.id_employee
+Ref: leads.id_sales_person > employees.id_employee
+Ref: leads.id_supervisor > employees.id_employee
+Ref: leads.id_supervisor > employees.id_employee
+Ref: marcajes.id_attendance_event_type > attendance_event_types.id_attendance_event_type
+Ref: marcajes.id_employee > employees.id_employee
+Ref: municipalities.id_city > cities.id_city
+Ref: projects.project_city_location > cities.id_city
+Ref: projects.project_construction_style > construction_styles.id_construction_style
+Ref: projects.project_municipality_location > municipalities.id_municipality
+Ref: rejection_reasons_history.id_lead > leads.id_lead
+Ref: rejection_reasons_history.id_rejection_reason > rejection_reasons.id_rejection_reason
+Ref: roles_views.id_role_reference > roles.id_role
+Ref: team_members.id_employee > employees.id_employee
+Ref: team_members.id_team > teams.id_team
+Ref: team_projects.id_project > projects.id_project
+Ref: team_projects.id_team > teams.id_team
+Ref: viewings.id_lead > leads.id_lead
